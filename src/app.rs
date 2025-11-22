@@ -38,19 +38,39 @@ impl eframe::App for YuryCipherApp {
                 egui::CollapsingHeader::new("Transform")
                     .default_open(true)
                     .show(ui, |ui| {
-                        if ui.button(rust_i18n::t!("modules.replace")).clicked() {
+                        if ui
+                            .button(rust_i18n::t!("modules.replace"))
+                            .on_hover_text(rust_i18n::t!("tooltips.replace"))
+                            .clicked()
+                        {
                             self.pipeline.add_module("replace");
                         }
-                        if ui.button(rust_i18n::t!("modules.reverse")).clicked() {
+                        if ui
+                            .button(rust_i18n::t!("modules.reverse"))
+                            .on_hover_text(rust_i18n::t!("tooltips.reverse"))
+                            .clicked()
+                        {
                             self.pipeline.add_module("reverse");
                         }
-                        if ui.button(rust_i18n::t!("modules.case_transform")).clicked() {
+                        if ui
+                            .button(rust_i18n::t!("modules.case_transform"))
+                            .on_hover_text(rust_i18n::t!("tooltips.case_transform"))
+                            .clicked()
+                        {
                             self.pipeline.add_module("case_transform");
                         }
-                        if ui.button(rust_i18n::t!("modules.numeral")).clicked() {
+                        if ui
+                            .button(rust_i18n::t!("modules.numeral"))
+                            .on_hover_text(rust_i18n::t!("tooltips.numeral"))
+                            .clicked()
+                        {
                             self.pipeline.add_module("numeral");
                         }
-                        if ui.button(rust_i18n::t!("modules.bitwise")).clicked() {
+                        if ui
+                            .button(rust_i18n::t!("modules.bitwise"))
+                            .on_hover_text(rust_i18n::t!("tooltips.bitwise"))
+                            .clicked()
+                        {
                             self.pipeline.add_module("bitwise");
                         }
                     });
@@ -58,10 +78,18 @@ impl eframe::App for YuryCipherApp {
                 egui::CollapsingHeader::new("Alphabets")
                     .default_open(false)
                     .show(ui, |ui| {
-                        if ui.button(rust_i18n::t!("modules.morse")).clicked() {
+                        if ui
+                            .button(rust_i18n::t!("modules.morse"))
+                            .on_hover_text(rust_i18n::t!("tooltips.morse"))
+                            .clicked()
+                        {
                             self.pipeline.add_module("morse");
                         }
-                        if ui.button(rust_i18n::t!("modules.spelling")).clicked() {
+                        if ui
+                            .button(rust_i18n::t!("modules.spelling"))
+                            .on_hover_text(rust_i18n::t!("tooltips.spelling"))
+                            .clicked()
+                        {
                             self.pipeline.add_module("spelling");
                         }
                     });
@@ -71,28 +99,60 @@ impl eframe::App for YuryCipherApp {
                     .show(ui, |ui| {
                         // Enigma placeholder if implemented, otherwise skip or add TODO
                         // if ui.button(rust_i18n::t!("modules.enigma")).clicked() { self.pipeline.add_module("enigma"); }
-                        if ui.button(rust_i18n::t!("modules.caesar")).clicked() {
+                        if ui
+                            .button(rust_i18n::t!("modules.caesar"))
+                            .on_hover_text(rust_i18n::t!("tooltips.caesar"))
+                            .clicked()
+                        {
                             self.pipeline.add_module("caesar");
                         }
-                        if ui.button(rust_i18n::t!("modules.affine")).clicked() {
+                        if ui
+                            .button(rust_i18n::t!("modules.affine"))
+                            .on_hover_text(rust_i18n::t!("tooltips.affine"))
+                            .clicked()
+                        {
                             self.pipeline.add_module("affine");
                         }
-                        if ui.button(rust_i18n::t!("modules.rot13")).clicked() {
+                        if ui
+                            .button(rust_i18n::t!("modules.rot13"))
+                            .on_hover_text(rust_i18n::t!("tooltips.rot13"))
+                            .clicked()
+                        {
                             self.pipeline.add_module("rot13");
                         }
-                        if ui.button(rust_i18n::t!("modules.a1z26")).clicked() {
+                        if ui
+                            .button(rust_i18n::t!("modules.a1z26"))
+                            .on_hover_text(rust_i18n::t!("tooltips.a1z26"))
+                            .clicked()
+                        {
                             self.pipeline.add_module("a1z26");
                         }
-                        if ui.button(rust_i18n::t!("modules.vigenere")).clicked() {
+                        if ui
+                            .button(rust_i18n::t!("modules.vigenere"))
+                            .on_hover_text(rust_i18n::t!("tooltips.vigenere"))
+                            .clicked()
+                        {
                             self.pipeline.add_module("vigenere");
                         }
-                        if ui.button(rust_i18n::t!("modules.bacon")).clicked() {
+                        if ui
+                            .button(rust_i18n::t!("modules.bacon"))
+                            .on_hover_text(rust_i18n::t!("tooltips.bacon"))
+                            .clicked()
+                        {
                             self.pipeline.add_module("bacon");
                         }
-                        if ui.button(rust_i18n::t!("modules.substitution")).clicked() {
+                        if ui
+                            .button(rust_i18n::t!("modules.substitution"))
+                            .on_hover_text(rust_i18n::t!("tooltips.substitution"))
+                            .clicked()
+                        {
                             self.pipeline.add_module("substitution");
                         }
-                        if ui.button(rust_i18n::t!("modules.rail_fence")).clicked() {
+                        if ui
+                            .button(rust_i18n::t!("modules.rail_fence"))
+                            .on_hover_text(rust_i18n::t!("tooltips.rail_fence"))
+                            .clicked()
+                        {
                             self.pipeline.add_module("rail_fence");
                         }
                     });
@@ -100,10 +160,18 @@ impl eframe::App for YuryCipherApp {
                 egui::CollapsingHeader::new("Polybius Square Ciphers")
                     .default_open(false)
                     .show(ui, |ui| {
-                        if ui.button(rust_i18n::t!("modules.polybius")).clicked() {
+                        if ui
+                            .button(rust_i18n::t!("modules.polybius"))
+                            .on_hover_text(rust_i18n::t!("tooltips.polybius"))
+                            .clicked()
+                        {
                             self.pipeline.add_module("polybius");
                         }
-                        if ui.button(rust_i18n::t!("modules.tap_code")).clicked() {
+                        if ui
+                            .button(rust_i18n::t!("modules.tap_code"))
+                            .on_hover_text(rust_i18n::t!("tooltips.tap_code"))
+                            .clicked()
+                        {
                             self.pipeline.add_module("tap_code");
                         }
                         // Placeholders for others
@@ -113,31 +181,67 @@ impl eframe::App for YuryCipherApp {
                 egui::CollapsingHeader::new("Encoding")
                     .default_open(false)
                     .show(ui, |ui| {
-                        if ui.button(rust_i18n::t!("modules.base32")).clicked() {
+                        if ui
+                            .button(rust_i18n::t!("modules.base32"))
+                            .on_hover_text(rust_i18n::t!("tooltips.base32"))
+                            .clicked()
+                        {
                             self.pipeline.add_module("base32");
                         }
-                        if ui.button(rust_i18n::t!("modules.base64")).clicked() {
+                        if ui
+                            .button(rust_i18n::t!("modules.base64"))
+                            .on_hover_text(rust_i18n::t!("tooltips.base64"))
+                            .clicked()
+                        {
                             self.pipeline.add_module("base64");
                         }
-                        if ui.button(rust_i18n::t!("modules.ascii85")).clicked() {
+                        if ui
+                            .button(rust_i18n::t!("modules.ascii85"))
+                            .on_hover_text(rust_i18n::t!("tooltips.ascii85"))
+                            .clicked()
+                        {
                             self.pipeline.add_module("ascii85");
                         }
-                        if ui.button(rust_i18n::t!("modules.baudot")).clicked() {
+                        if ui
+                            .button(rust_i18n::t!("modules.baudot"))
+                            .on_hover_text(rust_i18n::t!("tooltips.baudot"))
+                            .clicked()
+                        {
                             self.pipeline.add_module("baudot");
                         }
-                        if ui.button(rust_i18n::t!("modules.unicode")).clicked() {
+                        if ui
+                            .button(rust_i18n::t!("modules.unicode"))
+                            .on_hover_text(rust_i18n::t!("tooltips.unicode"))
+                            .clicked()
+                        {
                             self.pipeline.add_module("unicode");
                         }
-                        if ui.button(rust_i18n::t!("modules.url")).clicked() {
+                        if ui
+                            .button(rust_i18n::t!("modules.url"))
+                            .on_hover_text(rust_i18n::t!("tooltips.url"))
+                            .clicked()
+                        {
                             self.pipeline.add_module("url");
                         }
-                        if ui.button(rust_i18n::t!("modules.punycode")).clicked() {
+                        if ui
+                            .button(rust_i18n::t!("modules.punycode"))
+                            .on_hover_text(rust_i18n::t!("tooltips.punycode"))
+                            .clicked()
+                        {
                             self.pipeline.add_module("punycode");
                         }
-                        if ui.button(rust_i18n::t!("modules.bootstring")).clicked() {
+                        if ui
+                            .button(rust_i18n::t!("modules.bootstring"))
+                            .on_hover_text(rust_i18n::t!("tooltips.bootstring"))
+                            .clicked()
+                        {
                             self.pipeline.add_module("bootstring");
                         }
-                        if ui.button(rust_i18n::t!("modules.integer")).clicked() {
+                        if ui
+                            .button(rust_i18n::t!("modules.integer"))
+                            .on_hover_text(rust_i18n::t!("tooltips.integer"))
+                            .clicked()
+                        {
                             self.pipeline.add_module("integer");
                         }
                     });
@@ -145,16 +249,32 @@ impl eframe::App for YuryCipherApp {
                 egui::CollapsingHeader::new("Modern Cryptography")
                     .default_open(false)
                     .show(ui, |ui| {
-                        if ui.button(rust_i18n::t!("modules.block_cipher")).clicked() {
+                        if ui
+                            .button(rust_i18n::t!("modules.block_cipher"))
+                            .on_hover_text(rust_i18n::t!("tooltips.block_cipher"))
+                            .clicked()
+                        {
                             self.pipeline.add_module("block_cipher");
                         }
-                        if ui.button(rust_i18n::t!("modules.rc4")).clicked() {
+                        if ui
+                            .button(rust_i18n::t!("modules.rc4"))
+                            .on_hover_text(rust_i18n::t!("tooltips.rc4"))
+                            .clicked()
+                        {
                             self.pipeline.add_module("rc4");
                         }
-                        if ui.button(rust_i18n::t!("modules.hash")).clicked() {
+                        if ui
+                            .button(rust_i18n::t!("modules.hash"))
+                            .on_hover_text(rust_i18n::t!("tooltips.hash"))
+                            .clicked()
+                        {
                             self.pipeline.add_module("hash");
                         }
-                        if ui.button(rust_i18n::t!("modules.hmac")).clicked() {
+                        if ui
+                            .button(rust_i18n::t!("modules.hmac"))
+                            .on_hover_text(rust_i18n::t!("tooltips.hmac"))
+                            .clicked()
+                        {
                             self.pipeline.add_module("hmac");
                         }
                     });
