@@ -74,7 +74,7 @@ cd yuricypher
 
 # Build and run
 cargo run --release
-```s
+```
 
 ⚠️ **Security Notice**: This tool is for educational purposes only. Do not use classical ciphers or weak algorithms for protecting sensitive data in production environments.
 
