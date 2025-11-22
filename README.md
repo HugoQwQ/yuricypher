@@ -1,10 +1,10 @@
 # YuriCypher
 
-A modular, educational encryption and encoding tool built with Rust and egui, featuring a visual pipeline interface for chaining cryptographic operations.
+A modular, encryption and decryption tool built with Rust and egui, featuring a visual pipeline interface for chaining cryptographic operations.
 
 ## Overview
 
-YuriCypher is an interactive desktop application that allows users to explore and experiment with various encryption, encoding, and transformation techniques. It features a unique pipeline-based architecture where multiple operations can be chained together, making it ideal for learning cryptography concepts and understanding how different encoding schemes work.
+YuriCypher is an interactive desktop application that allows users to explore and experiment with various encryption, decryption, and transformation techniques. It features a unique pipeline-based architecture where multiple operations can be chained together, making it ideal for learning cryptography concepts and understanding how different encoding schemes work.
 
 ## Features
 
