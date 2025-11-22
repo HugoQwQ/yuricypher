@@ -3,7 +3,7 @@ use eframe::egui;
 
 pub struct PolybiusSquareModule {
     key: String,
-    size: usize, // 5 or 6
+    size: usize, // 5 for 5x5, 6 for 6x6
 }
 
 impl Default for PolybiusSquareModule {
@@ -21,35 +21,13 @@ impl Module for PolybiusSquareModule {
     }
 
     fn process(&self, input: &str) -> String {
-        // Simplified implementation: Standard square
-        // A B C D E
-        // F G H I K
-        // L M N O P
-        // Q R S T U
-        // V W X Y Z
-        // (I/J merged)
-
+        let square = self.generate_square();
         let mut result = String::new();
+
         for c in input.to_uppercase().chars() {
-            if c.is_ascii_alphabetic() {
-                let val = c as u8 - b'A';
-                let mut row = 0;
-                let mut col = 0;
-
-                // Adjust for I/J merge in 5x5
-                let adjusted_val = if c > 'I' { val - 1 } else { val };
-
-                if c == 'J' {
-                    // Treat J as I
-                    row = 1;
-                    col = 4; // I is 24 (row 2, col 4) -> 1, 3. Wait.
-                             // A=0 (0,0). B=1 (0,1). E=4 (0,4). F=5 (1,0).
-                             // I=8 (1,3). J->I. K=10 -> 9 (1,4).
-                } else {
-                    row = adjusted_val / 5;
-                    col = adjusted_val % 5;
-                }
-
+            if let Some(pos) = self.find_in_square(&square, c) {
+                let row = pos / self.size;
+                let col = pos % self.size;
                 result.push_str(&format!("{}{}", row + 1, col + 1));
                 result.push(' ');
             } else {
@@ -59,8 +37,22 @@ impl Module for PolybiusSquareModule {
         result
     }
 
-    fn ui(&mut self, _ui: &mut egui::Ui) {
-        // TODO: Configurable key and size
+    fn ui(&mut self, ui: &mut egui::Ui) {
+        ui.horizontal(|ui| {
+            ui.label("Grid Size:");
+            ui.radio_value(&mut self.size, 5, "5×5 (I/J merged)");
+            ui.radio_value(&mut self.size, 6, "6×6 (with digits)");
+        });
+
+        ui.horizontal(|ui| {
+            ui.label("Custom Key:");
+            ui.text_edit_singleline(&mut self.key);
+            if ui.button("Clear").clicked() {
+                self.key.clear();
+            }
+        });
+
+        ui.label("Leave key empty for standard alphabetical order");
     }
 
     fn as_any(&self) -> &dyn std::any::Any {
@@ -69,6 +61,61 @@ impl Module for PolybiusSquareModule {
 
     fn as_any_mut(&mut self) -> &mut dyn std::any::Any {
         self
+    }
+}
+
+impl PolybiusSquareModule {
+    /// Generate the Polybius square based on key and size
+    fn generate_square(&self) -> Vec<char> {
+        let mut square = Vec::new();
+        let mut seen = std::collections::HashSet::new();
+
+        // Add characters from key first (deduplicated)
+        for c in self.key.to_uppercase().chars() {
+            if c.is_ascii_alphanumeric() && !seen.contains(&c) {
+                let normalized = if self.size == 5 && c == 'J' { 'I' } else { c };
+                if !seen.contains(&normalized) {
+                    square.push(normalized);
+                    seen.insert(normalized);
+                }
+            }
+        }
+
+        // Fill remaining with alphabet (and digits for 6x6)
+        if self.size == 5 {
+            // 5x5: A-Z with I/J merged (25 cells)
+            for c in 'A'..='Z' {
+                if c == 'J' {
+                    continue;
+                } // Skip J, use I instead
+                if !seen.contains(&c) {
+                    square.push(c);
+                    seen.insert(c);
+                }
+            }
+        } else {
+            // 6x6: A-Z + 0-9 (36 cells)
+            for c in 'A'..='Z' {
+                if !seen.contains(&c) {
+                    square.push(c);
+                    seen.insert(c);
+                }
+            }
+            for c in '0'..='9' {
+                if !seen.contains(&c) {
+                    square.push(c);
+                    seen.insert(c);
+                }
+            }
+        }
+
+        square
+    }
+
+    /// Find the position of a character in the square
+    fn find_in_square(&self, square: &[char], c: char) -> Option<usize> {
+        let search_char = if self.size == 5 && c == 'J' { 'I' } else { c };
+        square.iter().position(|&ch| ch == search_char)
     }
 }
 

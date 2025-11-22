@@ -52,16 +52,14 @@ impl Pipeline {
                 ui.group(|ui| {
                     ui.horizontal(|ui| {
                         // Up/Down buttons for sorting
-                        if ui.button("⬆").clicked()
-                            && idx > 0 {
-                                move_from = Some(idx);
-                                move_to = Some(idx - 1);
-                            }
-                        if ui.button("⬇").clicked()
-                            && idx < modules_len - 1 {
-                                move_from = Some(idx);
-                                move_to = Some(idx + 1);
-                            }
+                        if ui.button("⬆").clicked() && idx > 0 {
+                            move_from = Some(idx);
+                            move_to = Some(idx - 1);
+                        }
+                        if ui.button("⬇").clicked() && idx < modules_len - 1 {
+                            move_from = Some(idx);
+                            move_to = Some(idx + 1);
+                        }
 
                         ui.heading(module.name());
                         ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
@@ -106,25 +104,5 @@ impl Pipeline {
         if let (Some(from), Some(to)) = (move_from, move_to) {
             self.modules.swap(from, to);
         }
-
-        ui.add_space(8.0);
-        ui.vertical_centered(|ui| {
-            ui.label("⬇");
-        });
-        ui.add_space(8.0);
-
-        ui.group(|ui| {
-            ui.horizontal(|ui| {
-                ui.heading("Final Output");
-                if ui.button("📋").on_hover_text("Copy to clipboard").clicked() {
-                    ui.output_mut(|o| o.copied_text = current_text.clone());
-                }
-            });
-            ui.add(
-                egui::TextEdit::multiline(&mut current_text)
-                    .interactive(false)
-                    .desired_width(f32::INFINITY),
-            );
-        });
     }
 }

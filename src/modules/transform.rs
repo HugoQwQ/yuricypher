@@ -55,20 +55,17 @@ impl Module for CaseTransformModule {
         match self.mode {
             CaseMode::LowerCase => input.to_lowercase(),
             CaseMode::UpperCase => input.to_uppercase(),
-            CaseMode::Capitalize => {
-                // Simple capitalization: First letter of each word
-                input
-                    .split_whitespace()
-                    .map(|word| {
-                        let mut c = word.chars();
-                        match c.next() {
-                            None => String::new(),
-                            Some(f) => f.to_uppercase().collect::<String>() + c.as_str(),
-                        }
-                    })
-                    .collect::<Vec<_>>()
-                    .join(" ")
-            }
+            CaseMode::Capitalize => input
+                .split_whitespace()
+                .map(|word| {
+                    let mut c = word.chars();
+                    match c.next() {
+                        None => String::new(),
+                        Some(f) => f.to_uppercase().collect::<String>() + c.as_str(),
+                    }
+                })
+                .collect::<Vec<_>>()
+                .join(" "),
             CaseMode::Alternating => input
                 .chars()
                 .enumerate()
@@ -202,7 +199,7 @@ impl Module for NumeralSystemModule {
     fn ui(&mut self, ui: &mut egui::Ui) {
         ui.horizontal(|ui| {
             ui.label("From:");
-            egui::ComboBox::from_id_source("from_sys")
+            egui::ComboBox::from_id_salt("from_sys")
                 .selected_text(format!("{:?}", self.from))
                 .show_ui(ui, |ui| {
                     ui.selectable_value(&mut self.from, NumeralSystem::Decimal, "Decimal");
@@ -211,7 +208,7 @@ impl Module for NumeralSystemModule {
                     ui.selectable_value(&mut self.from, NumeralSystem::Hexadecimal, "Hexadecimal");
                 });
             ui.label("To:");
-            egui::ComboBox::from_id_source("to_sys")
+            egui::ComboBox::from_id_salt("to_sys")
                 .selected_text(format!("{:?}", self.to))
                 .show_ui(ui, |ui| {
                     ui.selectable_value(&mut self.to, NumeralSystem::Decimal, "Decimal");

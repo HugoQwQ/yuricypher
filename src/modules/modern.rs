@@ -4,7 +4,7 @@ use cbc::cipher::{BlockDecryptMut, BlockEncryptMut, KeyIvInit};
 use cbc::{Decryptor, Encryptor};
 use eframe::egui;
 use md5::{Digest as Md5Digest, Md5};
-use sha2::{Digest as Sha2Digest, Sha256};
+use sha2::Sha256;
 
 type Aes128CbcEnc = Encryptor<Aes128>;
 type Aes128CbcDec = Decryptor<Aes128>;

@@ -489,6 +489,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c08606f8c3cbf4ce6ec8e28fb0014a2c086708fe954eaa885384a6165172e7e8"
 
 [[package]]
+name = "base32"
+version = "0.5.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "022dfe9eb35f19ebbcb51e0b40a5ab759f46ad60cadf7297e0bd085afb50e076"
+
+[[package]]
 name = "base62"
 version = "2.2.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -919,6 +925,12 @@ name = "cursor-icon"
 version = "1.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f27ae1dd37df86211c42e150270f82743308803d90a6f6e6651cd730d5e1732f"
+
+[[package]]
+name = "data-encoding"
+version = "2.9.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "2a2330da5de22e8a3cb63252ce2abb30116bf5265e89c0e01bc17015ce30a476"
 
 [[package]]
 name = "digest"
@@ -4451,12 +4463,15 @@ name = "yuricypher"
 version = "0.1.0"
 dependencies = [
  "aes",
+ "base32",
  "base64",
  "cbc",
+ "data-encoding",
  "eframe",
  "egui",
  "env_logger",
  "hex",
+ "idna",
  "itertools 0.13.0",
  "lazy_static",
  "md-5",
