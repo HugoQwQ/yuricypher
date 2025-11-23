@@ -17,47 +17,52 @@ YuriCypher is an interactive desktop application that allows users to explore an
 ### 🔐 Cryptographic Modules
 
 **Transform Operations**
-- Text replacement and manipulation
-- Case transformation (uppercase, lowercase, title case)
-- Reverse text
-- Numeral system conversion (binary, octal, decimal, hex)
-- Bitwise operations (AND, OR, XOR, NOT)
-- so on...
+- Replace - Find and replace text
+- Reverse - Reverse text order
+- Case transform - Convert between uppercase, lowercase, capitalize, alternating
+- Numeral system - Convert between binary, octal, decimal, hexadecimal
+- Bitwise operation - AND, OR, XOR, NOT, NAND, NOR, XNOR operations
 
-**Alphabets & Codes**
-- Morse code encoder/decoder
-- NATO phonetic alphabet
-- so on...
+**Alphabets**
+- Morse code - International Morse code encoder/decoder
+- Spelling alphabet - NATO phonetic alphabet
 
-**Classical Ciphers**
-- Caesar cipher with configurable shift
-- ROT13
-- Affine cipher
-- Vigenère cipher
-- Rail fence cipher
-- Bacon cipher
-- Alphabetical substitution
-- A1Z26 (letter-to-number)
-- so on...
+**Ciphers**
+- Enigma machine - Historical Enigma cipher with configurable rotors, positions, ring settings, reflector, and plugboard
+- Caesar cipher - Shift cipher with configurable offset and encode/decode modes
+- Affine cipher - Linear cipher with slope (a) and intercept (b) parameters, includes decode with modular inverse
+- ROT13 - Special case of Caesar cipher with shift of 13 (reciprocal)
+- A1Z26 - Letter-to-number cipher (A=1, B=2, ..., Z=26) with encode/decode
+- Vigenere cipher - Polyalphabetic cipher with keyword and encode/decode modes
+- Bacon cipher - Binary encoding using 'a' and 'b' with encode/decode
+- Alphabetical substitution - Custom alphabet substitution with encode/decode modes
+- Rail fence cipher - Transposition cipher with configurable rails and encode/decode
 
 **Polybius Square Ciphers**
-- Polybius square
-- Tap code
-- so on...
+- Polybius square - Grid-based cipher with 5×5 or 6×6 grids, custom keys, and encode/decode modes
+- ADFGX cipher - WWI German cipher combining Polybius square and columnar transposition
+- Bifid cipher - Fractionating cipher combining Polybius square and transposition
+- Nihilist cipher - Russian cipher adding keyword coordinates to plaintext coordinates
+- Tap code - Polybius-based cipher using dot patterns with encode/decode modes
+- Trifid cipher - Fractionating cipher using 3 coordinates (layer, row, col)
 
-**Encoding Schemes**
-- Base64 encoding/decoding
-- URL encoding (percent encoding)
-- Unicode code points (U+XXXX format)
-- Integer representation (decimal/hex bytes)
-- so on...d
+**Encoding**
+- Base32 - Base32 encoding/decoding
+- Base64 - Base64 encoding/decoding
+- Ascii85 - Ascii85 (Base85) encoding/decoding
+- Baudot code - 5-bit character encoding with encode/decode
+- Unicode code points - Convert text to/from Unicode code points (U+XXXX format)
+- URL encoding - Percent encoding for URLs with encode/decode
+- Punycode - Internationalized domain name encoding with encode/decode
+- Bootstring - Punycode's underlying algorithm with encode/decode
+- Integer - Convert text to integer representations (decimal/hex bytes)
 
 **Modern Cryptography**
-- AES-128-CBC block cipher with configurable key and IV
-- RC4 stream cipher
-- Hash functions (MD5, SHA256)
-- HMAC (Hash-based Message Authentication Code)
-- so on...
+- Block Cipher - AES-128-CBC with configurable key, IV, and encrypt/decrypt modes
+- RC4 - Stream cipher with configurable key and encrypt/decrypt modes
+- Hash function - One-way hash functions (MD5, SHA256)
+- HMAC - Hash-based message authentication code with configurable algorithm and key
+
 
 ## Installation
 

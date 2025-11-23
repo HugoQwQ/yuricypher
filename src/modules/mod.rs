@@ -1,6 +1,7 @@
 pub mod alphabet;
 pub mod cipher;
 pub mod encoding;
+pub mod enigma;
 pub mod modern;
 pub mod polybius;
 pub mod transform;
@@ -25,11 +26,11 @@ pub fn create_module(id: &str) -> Option<Box<dyn Module>> {
         "bacon" => Some(Box::new(cipher::BaconCipherModule::default())),
         "substitution" => Some(Box::new(cipher::AlphabeticalSubstitutionModule::default())),
         "polybius" => Some(Box::new(polybius::PolybiusSquareModule::default())),
-        "adfgx" => Some(Box::new(polybius::ADFGXCipherModule)),
-        "bifid" => Some(Box::new(polybius::BifidCipherModule)),
-        "nihilist" => Some(Box::new(polybius::NihilistCipherModule)),
-        "tap_code" => Some(Box::new(polybius::TapCodeModule)),
-        "trifid" => Some(Box::new(polybius::TrifidCipherModule)),
+        "adfgx" => Some(Box::new(polybius::ADFGXCipherModule::default())),
+        "bifid" => Some(Box::new(polybius::BifidCipherModule::default())),
+        "nihilist" => Some(Box::new(polybius::NihilistCipherModule::default())),
+        "tap_code" => Some(Box::new(polybius::TapCodeModule::default())),
+        "trifid" => Some(Box::new(polybius::TrifidCipherModule::default())),
         "base64" => Some(Box::new(encoding::Base64Module::default())),
         "base32" => Some(Box::new(encoding::Base32Module::default())),
         "ascii85" => Some(Box::new(encoding::Ascii85Module::default())),
@@ -43,6 +44,7 @@ pub fn create_module(id: &str) -> Option<Box<dyn Module>> {
         "rc4" => Some(Box::new(modern::RC4Module::default())),
         "hash" => Some(Box::new(modern::HashFunctionModule::default())),
         "hmac" => Some(Box::new(modern::HMACModule::default())),
+        "enigma" => Some(Box::new(enigma::EnigmaModule::default())),
         _ => None,
     }
 }

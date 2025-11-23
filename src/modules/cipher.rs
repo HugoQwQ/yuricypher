@@ -1,13 +1,23 @@
 use crate::module::Module;
 use eframe::egui;
 
+#[derive(PartialEq, Clone, Copy)]
+pub enum CipherMode {
+    Encode,
+    Decode,
+}
+
 pub struct CaesarCipherModule {
     shift: i32,
+    mode: CipherMode,
 }
 
 impl Default for CaesarCipherModule {
     fn default() -> Self {
-        Self { shift: 1 }
+        Self {
+            shift: 1,
+            mode: CipherMode::Encode,
+        }
     }
 }
 
@@ -17,7 +27,10 @@ impl Module for CaesarCipherModule {
     }
 
     fn process(&self, input: &str) -> String {
-        let shift = self.shift.rem_euclid(26) as u8;
+        let shift = match self.mode {
+            CipherMode::Encode => self.shift.rem_euclid(26) as u8,
+            CipherMode::Decode => (26 - self.shift.rem_euclid(26)) as u8,
+        };
         input
             .chars()
             .map(|c| {
@@ -34,6 +47,10 @@ impl Module for CaesarCipherModule {
     }
 
     fn ui(&mut self, ui: &mut egui::Ui) {
+        ui.horizontal(|ui| {
+            ui.radio_value(&mut self.mode, CipherMode::Encode, "Encode");
+            ui.radio_value(&mut self.mode, CipherMode::Decode, "Decode");
+        });
         ui.horizontal(|ui| {
             ui.label("Shift:");
             ui.add(egui::DragValue::new(&mut self.shift));
@@ -166,11 +183,38 @@ impl Module for A1Z26Module {
 pub struct AffineCipherModule {
     a: i32,
     b: i32,
+    mode: CipherMode,
 }
 
 impl Default for AffineCipherModule {
     fn default() -> Self {
-        Self { a: 5, b: 8 }
+        Self {
+            a: 5,
+            b: 8,
+            mode: CipherMode::Encode,
+        }
+    }
+}
+
+impl AffineCipherModule {
+    /// Calculate modular multiplicative inverse using Extended Euclidean Algorithm
+    fn mod_inverse(a: i32, m: i32) -> Option<i32> {
+        let (mut t, mut new_t) = (0, 1);
+        let (mut r, mut new_r) = (m, a);
+
+        while new_r != 0 {
+            let quotient = r / new_r;
+            (t, new_t) = (new_t, t - quotient * new_t);
+            (r, new_r) = (new_r, r - quotient * new_r);
+        }
+
+        if r > 1 {
+            return None; // a is not invertible
+        }
+        if t < 0 {
+            t += m;
+        }
+        Some(t)
     }
 }
 
@@ -193,7 +237,14 @@ impl Module for AffineCipherModule {
                 if c.is_ascii_alphabetic() {
                     let base = if c.is_ascii_lowercase() { b'a' } else { b'A' };
                     let x = (c as u8 - base) as i32;
-                    let new_x = (a * x + b).rem_euclid(26) as u8;
+                    let new_x = match self.mode {
+                        CipherMode::Encode => (a * x + b).rem_euclid(26),
+                        CipherMode::Decode => {
+                            // D(y) = a^(-1) * (y - b) mod 26
+                            let a_inv = Self::mod_inverse(a, 26).unwrap_or(1);
+                            (a_inv * (x - b)).rem_euclid(26)
+                        }
+                    } as u8;
                     (base + new_x) as char
                 } else {
                     c
@@ -203,6 +254,10 @@ impl Module for AffineCipherModule {
     }
 
     fn ui(&mut self, ui: &mut egui::Ui) {
+        ui.horizontal(|ui| {
+            ui.radio_value(&mut self.mode, CipherMode::Encode, "Encode");
+            ui.radio_value(&mut self.mode, CipherMode::Decode, "Decode");
+        });
         ui.horizontal(|ui| {
             ui.label("a (Slope):");
             ui.add(egui::DragValue::new(&mut self.a));
@@ -504,6 +559,7 @@ impl Module for BaconCipherModule {
 pub struct AlphabeticalSubstitutionModule {
     plaintext: String,
     ciphertext: String,
+    mode: CipherMode,
 }
 
 impl Default for AlphabeticalSubstitutionModule {
@@ -511,6 +567,7 @@ impl Default for AlphabeticalSubstitutionModule {
         Self {
             plaintext: "abcdefghijklmnopqrstuvwxyz".to_string(),
             ciphertext: "zyxwvutsrqponmlkjihgfedcba".to_string(),
+            mode: CipherMode::Encode,
         }
     }
 }
@@ -530,9 +587,16 @@ impl Module for AlphabeticalSubstitutionModule {
         }
 
         let mut map = std::collections::HashMap::new();
-        for (i, &p) in plain_chars.iter().enumerate() {
-            map.insert(p, cipher_chars[i]);
-            map.insert(p.to_ascii_uppercase(), cipher_chars[i].to_ascii_uppercase());
+        // In encode mode: plaintext -> ciphertext
+        // In decode mode: ciphertext -> plaintext (swap the mapping)
+        let (from_chars, to_chars) = match self.mode {
+            CipherMode::Encode => (&plain_chars, &cipher_chars),
+            CipherMode::Decode => (&cipher_chars, &plain_chars),
+        };
+
+        for (i, &f) in from_chars.iter().enumerate() {
+            map.insert(f, to_chars[i]);
+            map.insert(f.to_ascii_uppercase(), to_chars[i].to_ascii_uppercase());
         }
 
         input
@@ -542,6 +606,10 @@ impl Module for AlphabeticalSubstitutionModule {
     }
 
     fn ui(&mut self, ui: &mut egui::Ui) {
+        ui.horizontal(|ui| {
+            ui.radio_value(&mut self.mode, CipherMode::Encode, "Encode");
+            ui.radio_value(&mut self.mode, CipherMode::Decode, "Decode");
+        });
         ui.horizontal(|ui| {
             ui.label("Plaintext:");
             ui.text_edit_singleline(&mut self.plaintext);

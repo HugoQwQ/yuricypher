@@ -97,8 +97,13 @@ impl eframe::App for YuryCipherApp {
                 egui::CollapsingHeader::new("Ciphers")
                     .default_open(false)
                     .show(ui, |ui| {
-                        // Enigma placeholder if implemented, otherwise skip or add TODO
-                        // if ui.button(rust_i18n::t!("modules.enigma")).clicked() { self.pipeline.add_module("enigma"); }
+                        if ui
+                            .button(rust_i18n::t!("modules.enigma"))
+                            .on_hover_text(rust_i18n::t!("tooltips.enigma"))
+                            .clicked()
+                        {
+                            self.pipeline.add_module("enigma");
+                        }
                         if ui
                             .button(rust_i18n::t!("modules.caesar"))
                             .on_hover_text(rust_i18n::t!("tooltips.caesar"))
@@ -174,8 +179,34 @@ impl eframe::App for YuryCipherApp {
                         {
                             self.pipeline.add_module("tap_code");
                         }
-                        // Placeholders for others
-                        // if ui.button(rust_i18n::t!("modules.adfgx")).clicked() { self.pipeline.add_module("adfgx"); }
+                        if ui
+                            .button(rust_i18n::t!("modules.adfgx"))
+                            .on_hover_text(rust_i18n::t!("tooltips.adfgx"))
+                            .clicked()
+                        {
+                            self.pipeline.add_module("adfgx");
+                        }
+                        if ui
+                            .button(rust_i18n::t!("modules.bifid"))
+                            .on_hover_text(rust_i18n::t!("tooltips.bifid"))
+                            .clicked()
+                        {
+                            self.pipeline.add_module("bifid");
+                        }
+                        if ui
+                            .button(rust_i18n::t!("modules.nihilist"))
+                            .on_hover_text(rust_i18n::t!("tooltips.nihilist"))
+                            .clicked()
+                        {
+                            self.pipeline.add_module("nihilist");
+                        }
+                        if ui
+                            .button(rust_i18n::t!("modules.trifid"))
+                            .on_hover_text(rust_i18n::t!("tooltips.trifid"))
+                            .clicked()
+                        {
+                            self.pipeline.add_module("trifid");
+                        }
                     });
 
                 egui::CollapsingHeader::new("Encoding")
