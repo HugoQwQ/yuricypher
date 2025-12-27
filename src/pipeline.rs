@@ -5,6 +5,7 @@ use eframe::egui;
 pub struct Pipeline {
     modules: Vec<Box<dyn Module>>,
     input_text: String,
+    dragged_item_idx: Option<usize>,
 }
 
 impl Default for Pipeline {
@@ -12,6 +13,7 @@ impl Default for Pipeline {
         Self {
             modules: Vec::new(),
             input_text: String::from("The quick brown fox jumps over the lazy dog."),
+            dragged_item_idx: None,
         }
     }
 }
@@ -26,6 +28,7 @@ impl Pipeline {
     pub fn clear(&mut self) {
         self.modules.clear();
         self.input_text = String::from("The quick brown fox jumps over the lazy dog.");
+        self.dragged_item_idx = None;
     }
 
     pub fn ui(&mut self, ui: &mut egui::Ui) {
@@ -43,22 +46,42 @@ impl Pipeline {
 
         // Process through modules
         let mut remove_idx = None;
-        let mut move_from = None;
-        let mut move_to = None;
+        let mut swap_request = None;
+
+        // Handle drag release
+        if ui.input(|i| i.pointer.any_released()) {
+            self.dragged_item_idx = None;
+        }
+
+        let mut next_dragged_idx = self.dragged_item_idx;
+        let current_dragged_idx = self.dragged_item_idx;
+
         let modules_len = self.modules.len();
 
         for (idx, module) in self.modules.iter_mut().enumerate() {
+            let is_being_dragged = current_dragged_idx == Some(idx);
+
             ui.push_id(idx, |ui| {
-                ui.group(|ui| {
+                // Highlight if dragged
+                if is_being_dragged {
+                    let highlight = ui.style().visuals.selection.bg_fill.linear_multiply(0.3);
+                    ui.style_mut().visuals.panel_fill = highlight;
+                }
+
+                let response = ui.group(|ui| {
                     ui.horizontal(|ui| {
-                        // Up/Down buttons for sorting
-                        if ui.button("⬆").clicked() && idx > 0 {
-                            move_from = Some(idx);
-                            move_to = Some(idx - 1);
+                        // Drag Handle
+                        let handle_response = ui
+                            .scope(|ui| {
+                                ui.style_mut().interaction.selectable_labels = false;
+                                ui.add(egui::Label::new("::").sense(egui::Sense::drag()))
+                            })
+                            .inner;
+                        if handle_response.hovered() {
+                            ui.output_mut(|o| o.cursor_icon = egui::CursorIcon::Grab);
                         }
-                        if ui.button("⬇").clicked() && idx < modules_len - 1 {
-                            move_from = Some(idx);
-                            move_to = Some(idx + 1);
+                        if handle_response.drag_started() {
+                            next_dragged_idx = Some(idx);
                         }
 
                         ui.heading(module.name());
@@ -85,6 +108,18 @@ impl Pipeline {
                             .desired_width(f32::INFINITY),
                     );
                 });
+
+                // Swap logic: if dragging and hovering over another item
+                if let Some(dragged_idx) = current_dragged_idx {
+                    if dragged_idx != idx
+                        && response
+                            .response
+                            .rect
+                            .contains(ui.input(|i| i.pointer.hover_pos().unwrap_or_default()))
+                    {
+                        swap_request = Some((dragged_idx, idx));
+                    }
+                }
             });
             ui.add_space(8.0);
 
@@ -97,12 +132,25 @@ impl Pipeline {
             }
         }
 
+        self.dragged_item_idx = next_dragged_idx;
+
         if let Some(idx) = remove_idx {
             self.modules.remove(idx);
+            // If we removed the dragged item, reset drag state
+            if self.dragged_item_idx == Some(idx) {
+                self.dragged_item_idx = None;
+            } else if let Some(dragged) = self.dragged_item_idx {
+                // Adjust index if needed
+                if idx < dragged {
+                    self.dragged_item_idx = Some(dragged - 1);
+                }
+            }
         }
 
-        if let (Some(from), Some(to)) = (move_from, move_to) {
+        if let Some((from, to)) = swap_request {
             self.modules.swap(from, to);
+            // Update dragged index to follow the item
+            self.dragged_item_idx = Some(to);
         }
     }
 }

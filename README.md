@@ -2,18 +2,6 @@
 
 A modular, encryption and decryption tool built with Rust and egui, featuring a visual pipeline interface for chaining cryptographic operations.
 
-## Overview
-
-YuriCypher is an interactive desktop application that allows users to explore and experiment with various encryption, decryption, and transformation techniques. It features a unique pipeline-based architecture where multiple operations can be chained together, making it ideal for learning cryptography concepts and understanding how different encoding schemes work.
-
-## Features
-
-### 🔗 Pipeline Architecture
-- **Visual Pipeline**: Chain multiple modules together to see data flow through transformations
-- **Real-time Processing**: Instant feedback as you modify parameters or reorder modules
-- **Module Reordering**: Use up/down arrows to reorganize your pipeline
-- **Copy Output**: One-click copying of any module's output or final result
-
 ### 🔐 Cryptographic Modules
 
 **Transform Operations**
@@ -81,8 +69,6 @@ cd yuricypher
 cargo run --release
 ```
 
-⚠️ **Security Notice**: This tool is for educational purposes only. Do not use classical ciphers or weak algorithms for protecting sensitive data in production environments.
-
 ## Contributing
 
 Contributions are welcome! Areas for improvement:
@@ -108,6 +94,5 @@ This project is open source and available under the GPL-3.0 License.
 - [ ] Export/import pipeline configurations
 - [ ] Batch processing of multiple inputs
 - [ ] Additional cipher implementations
-- [ ] Plugin system for custom modules
 - [ ] Web assembly version for browser use
 - [ ] Detailed help and documentation for each module
